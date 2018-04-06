@@ -1,0 +1,10 @@
+body {
+  background-color: black;
+  color: maroon;
+  font-family: 'Butcherman', cursive;
+  background-image: url(/images/fence-1097655_1920.png)
+}
+
+h1 {
+  font-size: 4em;
+}
