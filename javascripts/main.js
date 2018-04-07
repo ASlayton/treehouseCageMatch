@@ -1,15 +1,18 @@
-console.log("Why, hello there");
+// console.log("Why, hello there");
+let runBefore = false;
 
 const writeToDom = (myInnerds, myElement) => {
   document.getElementById(myElement).innerHTML = myInnerds;
 };
 
-const bringIt = () => {
+const bringItPlayer1 = () => {
   const user1 = document.getElementById("user-input-1").value.toLowerCase();
-  const user2 = document.getElementById("user-input-2").value.toLowerCase();
   xhr(user1, thisFunctionIfFileLoads);
+};
+
+const bringItPlayer2 = () => {
+  const user2 = document.getElementById("user-input-2").value.toLowerCase();
   xhr(user2, thisFunctionIfFileLoads);
-  document.addEventListener("DOMContentLoaded", declareWinner);
 };
 
 const xhr = (firstCall, successFunction) => {
@@ -30,10 +33,16 @@ function thisFunctionIfFileLoads(){
 
 const makePlayerCard = (myUserImage, myUsername, myUserPoints) => {
   let playerContainer = '';
-  let firstPlayer = document.getElementById('user-input-1').value.toLowerCase();
+  let firstPlayer = '';
+  if (runBefore === true){
+    firstPlayer = document.getElementById('user-1-points').parentNode.parentNode.firstChild.firstChild.innerHTML;
+  }else{
+    firstPlayer = document.getElementById("user-input-1").value.toLowerCase();
+  };
+  console.log(firstPlayer);
     playerContainer += `<div class="panel panel-default">`;
     playerContainer +=   `<div class="panel-heading">`;
-    playerContainer +=     `<h3 class="panel-title">${myUsername}</h3>`;
+    playerContainer +=     `<h3 class="panel-title" id="${myUsername}">${myUsername}</h3>`;
     playerContainer +=   `</div>`;
     playerContainer +=   `<div class="panel-body">`;
     playerContainer +=     `<img src='${myUserImage}'>`;
@@ -50,28 +59,38 @@ const makePlayerCard = (myUserImage, myUsername, myUserPoints) => {
   }else{
     writeToDom(playerContainer, "player-2-container");
   };
+  runBefore = true;
 };
 
 function ifItFails(){
   console.log("I have failed, my friend.");
 };
 
-const fightButton = () => {
-  document.getElementById("fight").addEventListener("click", bringIt);
+const initEventListeners = () => {
+  document.getElementById("fight").addEventListener("click", fightItOut);
+  document.getElementById("enterPlayer1").addEventListener("click", bringItPlayer1);
+  document.getElementById("enterPlayer2").addEventListener("click", bringItPlayer2);
+};
+
+const fightItOut = () => {
+  const myElement = document.getElementById("winnerBox");
+  myElement.innerHTML = "<img src='https://media1.tenor.com/images/27b088962a216e5e6ae03ca1b94b7356/tenor.gif?itemid=7391113'>";
+  setTimeout(declareWinner(),5000);
+  document.getElementById("fight").classList.add("hidden");
 };
 
 const declareWinner = () => {
-  document.getElementById("fight").classList.add("hidden");
   const player1 = document.getElementById('user-1-points').innerHTML;
   const player2 = document.getElementById('user-2-points').innerHTML;
+  let winnerName = '';
   if(player1 > player2){
-    console.log(`Player 1 wins with ${player1}`);
-    playerName = document.getElementById()
+    winnerName = document.getElementById('user-1-points').parentNode.parentNode.firstChild.firstChild.innerHTML;
+    // xhr(winnerName, displayWinner);
   }else{
     console.log(`Player 1 wins with ${player2}`);
+    winnerName = document.getElementById('user-2-points').parentNode.parentNode.firstChild.firstChild.innerHTML;
+    xhr(winnerName, displayWinner);
   };
-
-  XHR();
 };
 
 
@@ -109,7 +128,7 @@ const createBadgeCarousel = (badgeImageArray, badgeNameArray) => {
 };
 
 const startApplication = () => {
-  fightButton();
+  initEventListeners();
 };
 
 startApplication();
