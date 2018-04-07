@@ -8,3 +8,7 @@ body {
 h1 {
   font-size: 4em;
 }
+
+img {
+  width: 100px;
+}
