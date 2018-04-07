@@ -16,6 +16,7 @@ const bringItPlayer2 = () => {
 };
 
 const xhr = (firstCall, successFunction) => {
+  console.log(firstCall);
   const myFirstRequest = new XMLHttpRequest();
   myFirstRequest.addEventListener("load", successFunction);
   myFirstRequest.addEventListener("error", ifItFails);
@@ -39,7 +40,6 @@ const makePlayerCard = (myUserImage, myUsername, myUserPoints) => {
   }else{
     firstPlayer = document.getElementById("user-input-1").value.toLowerCase();
   };
-  console.log(firstPlayer);
     playerContainer += `<div class="panel panel-default">`;
     playerContainer +=   `<div class="panel-heading">`;
     playerContainer +=     `<h3 class="panel-title" id="${myUsername}">${myUsername}</h3>`;
@@ -85,15 +85,19 @@ const declareWinner = () => {
   let winnerName = '';
   if(player1 > player2){
     winnerName = document.getElementById('user-1-points').parentNode.parentNode.firstChild.firstChild.innerHTML;
-    // xhr(winnerName, displayWinner);
+    console.log(winnerName)
+    xhr(winnerName, displayWinner);
   }else{
-    console.log(`Player 1 wins with ${player2}`);
     winnerName = document.getElementById('user-2-points').parentNode.parentNode.firstChild.firstChild.innerHTML;
+    console.log(winnerName);
     xhr(winnerName, displayWinner);
   };
 };
 
-
+const displayWinner = () => {
+  const myWinner = JSON.parse(this.responseText);
+  console.log(myWinner);
+};
 
 const createBadgeCarousel = (badgeImageArray, badgeNameArray) => {
   const winnerBox = document.getElementById("winnerBox").innerHTML;
