@@ -2,7 +2,7 @@
 let runBefore = 0;
 
 const writeToDom = (myInnerds, myElement) => {
-  document.getElementById(myElement).innerHTML = myInnerds;
+  document.getElementById(myElement).innerHTML += myInnerds;
 };
 
 const bringIt = () => {
@@ -13,11 +13,10 @@ const bringIt = () => {
 };
 
 const xhr = (firstCall, successFunction) => {
-  console.log(firstCall);
   const myFirstRequest = new XMLHttpRequest();
   myFirstRequest.addEventListener("load", successFunction);
   myFirstRequest.addEventListener("error", ifItFails);
-  myFirstRequest.open("GET", `https://www.teamtreehouse.com/${firstCall}.json`);
+  myFirstRequest.open("GET", `https://teamtreehouse.com/${firstCall}.json`);
   myFirstRequest.send()
 };
 
@@ -26,45 +25,45 @@ function thisFunctionIfFileLoads(){
   const userImage = myUser.gravatar_url;
   const userName = myUser.profile_name;
   const userPoints = myUser.points.total;
-  let userBadges =[];
+  let userBadges = [];
   for(let n = 0; n < myUser.badges.length; n++){
-    userBadges.push(myUser.badges.icon_url);
+    userBadges.push(myUser.badges[n].icon_url);
   };
-
+console.log(userBadges);
   makePlayerCard(userImage, userName, userPoints, userBadges);
 };
 
 const makePlayerCard = (myUserImage, myUsername, myUserPoints, userBadges) => {
   let playerContainer = '';
   let firstPlayer = '';
-  if (runBefore === 1){
-    firstPlayer = document.getElementById('user-1-points').parentNode.parentNode.firstChild.firstChild.innerHTML;
-  }else{
-    firstPlayer = document.getElementById("user-input-1").value.toLowerCase();
-  };
-    playerContainer += `<div class="panel panel-default">`;
+  
+    playerContainer += `<div class="panel panel-default" id="${myUsername}">`;
     playerContainer +=   `<div class="panel-heading">`;
-    playerContainer +=     `<h3 class="panel-title" id="${myUsername}">${myUsername}</h3>`;
+    playerContainer +=     `<h3 class="panel-title">${myUsername}</h3>`;
     playerContainer +=   `</div>`;
     playerContainer +=   `<div class="panel-body">`;
     playerContainer +=     `<img src='${myUserImage}'>`;
-    if(firstPlayer === myUsername){
-      playerContainer +=     `<h3 id='user-1-points'>${myUserPoints}</h3>`;
+    if(runBefore === 0){
+      playerContainer +=     `<h3 id='${myUsername}-points'>${myUserPoints}</h3>`;
+      playerContainer += `<ul class='hidden' id='${myUsername}-badges'>`;
     }else{
-      playerContainer +=     `<h3 id='user-2-points'>${myUserPoints}</h3>`;
+      playerContainer +=     `<h3 id='${myUsername}-points'>${myUserPoints}</h3>`;
     };
+    playerContainer += `<ul class=''>`;
+    for(var i = 0; i < userBadges.length; i++){
+      playerContainer += `<li><img src='${userBadges[i]}'></li>`;
+    };
+    playerContainer += `</ul>`;
     playerContainer +=   `</div>`;
     playerContainer += `</div>`;
 
-  if(firstPlayer === myUsername){
-    writeToDom(playerContainer, "player-1-container");
-  }else{
-    writeToDom(playerContainer, "player-2-container");
-  };
+    writeToDom(playerContainer, "player-box");
+  
+  runBefore++;
+
   if(runBefore === 2){
     declareWinner();
   };
-  runBefore++;
 };
 
 function ifItFails(){
@@ -77,14 +76,19 @@ const initEventListeners = () => {
 
 const declareWinner = () => {
   console.log("I have reached declareWinner function");
-  const player1 = document.getElementById('user-1-points').innerHTML;
-  const player2 = document.getElementById('user-2-points').innerHTML;
+  const player1name = document.getElementById("user-input-1").value.toLowerCase();
+  const player2name = document.getElementById("user-input-2").value.toLowerCase();
+  let player1= document.getElementById(`${player1name}-points`).innerHTML;
+  let player2= document.getElementById(`${player2name}-points`).innerHTML;
+  let player1Badges = document.getElementById(`${player1name}-badges`).innerHTML;
+  let player2Badges = document.getElementById(`${player2name}-badges`).innerHTML;
   let winnerName = '';
+  let winnerBox = document.getElementById("winner-box").innerHTML;
   if(player1 > player2){
-    winnerName = document.getElementById('user-1-points').parentNode.parentNode.firstChild.firstChild.innerHTML;
-    console.log(winnerName);
+    winnerBox += `<h1>${player1name} wins!</h1>`;
+    // createBadgeCarousel(userBadges);
   }else{
-    winnerName = document.getElementById('user-2-points').parentNode.parentNode.firstChild.firstChild.innerHTML;
+    winnerBox += `<h1>${player2name} wins!</h1>`;
   };
 };
 
