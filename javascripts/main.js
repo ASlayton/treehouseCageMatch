@@ -42,14 +42,9 @@ const makePlayerCard = (myUserImage, myUsername, myUserPoints, userBadges) => {
     playerContainer +=     `<h3 class="panel-title">${myUsername}</h3>`;
     playerContainer +=   `</div>`;
     playerContainer +=   `<div class="panel-body">`;
-    playerContainer +=     `<img src='${myUserImage}'>`;
-    if(runBefore === 0){
-      playerContainer +=     `<h3 id='${myUsername}-points'>${myUserPoints}</h3>`;
-      playerContainer += `<ul class='hidden' id='${myUsername}-badges'>`;
-    }else{
-      playerContainer +=     `<h3 id='${myUsername}-points'>${myUserPoints}</h3>`;
-    };
-    playerContainer += `<ul class=''>`;
+    playerContainer +=     `<img src='${myUserImage}'>`;s
+    playerContainer +=     `<h3 id='${myUsername}-points'>${myUserPoints}</h3>`;
+    playerContainer += `<ul class='hidden' id='${myUsername}-badges'>`;
     for(var i = 0; i < userBadges.length; i++){
       playerContainer += `<li><img src='${userBadges[i]}'></li>`;
     };
