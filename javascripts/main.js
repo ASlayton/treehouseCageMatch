@@ -1,16 +1,13 @@
 // console.log("Why, hello there");
-let runBefore = false;
+let runBefore = 0;
 
 const writeToDom = (myInnerds, myElement) => {
   document.getElementById(myElement).innerHTML = myInnerds;
 };
 
-const bringItPlayer1 = () => {
+const bringIt = () => {
   const user1 = document.getElementById("user-input-1").value.toLowerCase();
   xhr(user1, thisFunctionIfFileLoads);
-};
-
-const bringItPlayer2 = () => {
   const user2 = document.getElementById("user-input-2").value.toLowerCase();
   xhr(user2, thisFunctionIfFileLoads);
 };
@@ -29,13 +26,18 @@ function thisFunctionIfFileLoads(){
   const userImage = myUser.gravatar_url;
   const userName = myUser.profile_name;
   const userPoints = myUser.points.total;
-  makePlayerCard(userImage, userName, userPoints);
+  let userBadges =[];
+  for(let n = 0; n < myUser.badges.length; n++){
+    userBadges.push(myUser.badges.icon_url);
+  };
+
+  makePlayerCard(userImage, userName, userPoints, userBadges);
 };
 
-const makePlayerCard = (myUserImage, myUsername, myUserPoints) => {
+const makePlayerCard = (myUserImage, myUsername, myUserPoints, userBadges) => {
   let playerContainer = '';
   let firstPlayer = '';
-  if (runBefore === true){
+  if (runBefore === 1){
     firstPlayer = document.getElementById('user-1-points').parentNode.parentNode.firstChild.firstChild.innerHTML;
   }else{
     firstPlayer = document.getElementById("user-input-1").value.toLowerCase();
@@ -59,7 +61,10 @@ const makePlayerCard = (myUserImage, myUsername, myUserPoints) => {
   }else{
     writeToDom(playerContainer, "player-2-container");
   };
-  runBefore = true;
+  if(runBefore === 2){
+    declareWinner();
+  };
+  runBefore++;
 };
 
 function ifItFails(){
@@ -67,37 +72,22 @@ function ifItFails(){
 };
 
 const initEventListeners = () => {
-  document.getElementById("fight").addEventListener("click", fightItOut);
-  document.getElementById("enterPlayer1").addEventListener("click", bringItPlayer1);
-  document.getElementById("enterPlayer2").addEventListener("click", bringItPlayer2);
-};
-
-const fightItOut = () => {
-  const myElement = document.getElementById("winnerBox");
-  myElement.innerHTML = "<img src='https://media1.tenor.com/images/27b088962a216e5e6ae03ca1b94b7356/tenor.gif?itemid=7391113'>";
-  setTimeout(declareWinner(),5000);
-  document.getElementById("fight").classList.add("hidden");
+  document.getElementById("fight").addEventListener("click", bringIt);
 };
 
 const declareWinner = () => {
+  console.log("I have reached declareWinner function");
   const player1 = document.getElementById('user-1-points').innerHTML;
   const player2 = document.getElementById('user-2-points').innerHTML;
   let winnerName = '';
   if(player1 > player2){
     winnerName = document.getElementById('user-1-points').parentNode.parentNode.firstChild.firstChild.innerHTML;
-    console.log(winnerName)
-    xhr(winnerName, displayWinner);
+    console.log(winnerName);
   }else{
     winnerName = document.getElementById('user-2-points').parentNode.parentNode.firstChild.firstChild.innerHTML;
-    console.log(winnerName);
-    xhr(winnerName, displayWinner);
   };
 };
 
-const displayWinner = () => {
-  const myWinner = JSON.parse(this.responseText);
-  console.log(myWinner);
-};
 
 const createBadgeCarousel = (badgeImageArray, badgeNameArray) => {
   const winnerBox = document.getElementById("winnerBox").innerHTML;
