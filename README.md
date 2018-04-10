@@ -29,5 +29,3 @@ A simple app demonstrating the use of XHR requests grabbing data from an externa
 [Michael Clark](https://github.com/michaelclark2)
 
 [Maken Hubbard](https://github.com/MakenHubbard)
-
-[Colin White](https://github.com/colinlwhite)
