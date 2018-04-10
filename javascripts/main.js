@@ -65,7 +65,6 @@ const initEventListeners = () => {
 };
 
 const declareWinner = () => {
-  console.log("I have reached declareWinner function");
   const player1name = document.getElementById("user-input-1").value.toLowerCase();
   const player2name = document.getElementById("user-input-2").value.toLowerCase();
   let player1= document.getElementById(`${player1name}-points`).innerHTML;
