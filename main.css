@@ -12,3 +12,8 @@ h1 {
 img {
   width: 100px;
 }
+
+.badge-container{
+  background-color: seashell;
+  padding: 5px;
+}

@@ -29,7 +29,6 @@ function thisFunctionIfFileLoads(){
   for(let n = 0; n < myUser.badges.length; n++){
     userBadges.push(myUser.badges[n].icon_url);
   };
-console.log(userBadges);
   makePlayerCard(userImage, userName, userPoints, userBadges);
 };
 
@@ -42,13 +41,9 @@ const makePlayerCard = (myUserImage, myUsername, myUserPoints, userBadges) => {
     playerContainer +=     `<h3 class="panel-title">${myUsername}</h3>`;
     playerContainer +=   `</div>`;
     playerContainer +=   `<div class="panel-body">`;
-    playerContainer +=     `<img src='${myUserImage}'>`;s
+    playerContainer +=     `<img src='${myUserImage}'>`;
     playerContainer +=     `<h3 id='${myUsername}-points'>${myUserPoints}</h3>`;
-    playerContainer += `<ul class='hidden' id='${myUsername}-badges'>`;
-    for(var i = 0; i < userBadges.length; i++){
-      playerContainer += `<li><img src='${userBadges[i]}'></li>`;
-    };
-    playerContainer += `</ul>`;
+    playerContainer +=     `<p class='hidden' id='${myUsername}-badges'>${userBadges}</p>`;
     playerContainer +=   `</div>`;
     playerContainer += `</div>`;
 
@@ -78,46 +73,41 @@ const declareWinner = () => {
   let player1Badges = document.getElementById(`${player1name}-badges`).innerHTML;
   let player2Badges = document.getElementById(`${player2name}-badges`).innerHTML;
   let winnerName = '';
-  let winnerBox = document.getElementById("winner-box").innerHTML;
+  let winningMessage = '';
+  let winnerBox = document.getElementById("winnerBox").innerHTML;
   if(player1 > player2){
-    winnerBox += `<h1>${player1name} wins!</h1>`;
-    // createBadgeCarousel(userBadges);
+    winningMessage = `<h1>${player1name} wins!</h1>`;
+    clearScreen();
+    winnerName = player1name;
+    createBadgeCarousel(player1Badges);
   }else{
-    winnerBox += `<h1>${player2name} wins!</h1>`;
+    winningMessage = `<h1>${player2name} wins!</h1>`;
+    clearScreen();
+    winnerName = player2name;
+    createBadgeCarousel(player2Badges);
   };
+  writeToDom(winningMessage, "winnerBox");
 };
 
 
-const createBadgeCarousel = (badgeImageArray, badgeNameArray) => {
-  const winnerBox = document.getElementById("winnerBox").innerHTML;
-  winnerBox += `<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">`;
-  winnerBox +=   `<div class="carousel-inner" role="listbox">`;
-  winnerBox +=     `<div class="item active">`;
-  winnerBox +=       `<img src="..." alt="...">`;
-  winnerBox +=        `<div class="carousel-caption">`;
-  winnerBox +=          `...`;
-  winnerBox +=        `</div>`;
-  winnerBox +=     `</div>`;
+const clearScreen = () => {
+  document.getElementById('main-page-contents').classList.add('hidden');
+};
+
+const createBadgeCarousel = (badges) => {
+  let myBadges = badges.split(',');
+  let winnerBox = '';
   
-  for(let i = 1; i < badgeImageArray.length; i++){
-    winnerBox +=     `<div class="item">`;
-    winnerBox +=       `<img src="${badgeImageArray[i]}" alt="${badgeNameArray[i]}">`;
-    winnerBox +=       `<div class="carousel-caption">`;
-    winnerBox +=         `${badgeNameArray[i]}`;
-    winnerBox +=       `</div>`;
-    winnerBox +=     `</div>`;
-    winnerBox +=   `</div>`;
+  winnerBox += `<div class="badge-container">`;
+  winnerBox += `<h1>Earned Badges:</h1>`;
+  for(var i =0 ; i < myBadges.length; i++){
+  winnerBox += `<img src='${myBadges[i]}' class='col-sm-1'>`;  
   };
-// controls
-  winnerBox +=  ` <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">`;
-  winnerBox +=  `   <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>`;
-  winnerBox +=  `   <span class="sr-only">Previous</span>`;
-  winnerBox +=  ` </a>`;
-  winnerBox +=  ` <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">`;
-  winnerBox +=  `   <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>`;
-  winnerBox +=   `  <span class="sr-only">Next</span>`;
-  winnerBox +=   `</a>`;
   winnerBox += `</div>`;
+
+
+
+  writeToDom(winnerBox, "badgeBox");
 };
 
 const startApplication = () => {
