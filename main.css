@@ -1,19 +1,35 @@
 body {
   background-color: #212121;
   color: crimson;
-  font-family: 'Butcherman', cursive;
+  font-family: 'Eater', cursive;
   background-image: url(/images/fence-1097655_1920.png)
 }
 
-h1 {
+h1, button {
+  font-family: 'Butcherman', cursive;
   font-size: 4em;
 }
 
+button {
+  margin: auto;
+}
+
 img {
-  width: 100px;
+  width: 150px;
 }
 
 .badge-container{
-  background-color: seashell;
+  background-color: grey;
+  border-radius: 5px;
   padding: 5px;
+  margin-bottom: 50px;
+}
+
+.badge-token {
+  width: 50px;
+  margin: 5px;
+}
+
+.badge-token:hover{
+  width: 100px;
 }

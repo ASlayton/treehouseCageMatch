@@ -36,7 +36,7 @@ const makePlayerCard = (myUserImage, myUsername, myUserPoints, userBadges) => {
   let playerContainer = '';
   let firstPlayer = '';
   
-    playerContainer += `<div class="panel panel-default" id="${myUsername}">`;
+    playerContainer += `<div class="panel panel-default col-sm-6 text-center" id="${myUsername}">`;
     playerContainer +=   `<div class="panel-heading">`;
     playerContainer +=     `<h3 class="panel-title">${myUsername}</h3>`;
     playerContainer +=   `</div>`;
@@ -76,19 +76,17 @@ const declareWinner = () => {
   let winningMessage = '';
   let winnerBox = document.getElementById("winnerBox").innerHTML;
   if(player1 > player2){
-    winningMessage = `<h1>${player1name} wins!</h1>`;
+    winningMessage = `<h1 class='col-sm-6 col-sm-offset-3 text-center'>${player1name} wins!</h1>`;
     clearScreen();
     winnerName = player1name;
     createBadgeCarousel(player1Badges);
   }else{
-    winningMessage = `<h1>${player2name} wins!</h1>`;
-    clearScreen();
+    winningMessage = `<h1 class='col-sm-6 col-sm-offset-3 text-center'>${player2name} wins!</h1>`;
     winnerName = player2name;
     createBadgeCarousel(player2Badges);
   };
   writeToDom(winningMessage, "winnerBox");
 };
-
 
 const clearScreen = () => {
   document.getElementById('main-page-contents').classList.add('hidden');
@@ -99,14 +97,11 @@ const createBadgeCarousel = (badges) => {
   let winnerBox = '';
   
   winnerBox += `<div class="badge-container">`;
-  winnerBox += `<h1>Earned Badges:</h1>`;
-  for(var i =0 ; i < myBadges.length; i++){
-  winnerBox += `<img src='${myBadges[i]}' class='col-sm-1'>`;  
+  winnerBox += `<h3>Earned Badges:</h3>`;
+  for(var i = 0 ; i < myBadges.length; i++){
+    winnerBox += `<img src='${myBadges[i]}' class='badge-token'>`;  
   };
   winnerBox += `</div>`;
-
-
-
   writeToDom(winnerBox, "badgeBox");
 };
 
